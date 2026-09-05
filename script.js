@@ -1,7 +1,6 @@
 const form = document.getElementById('contact-form');
 const confirmation = document.getElementById('confirmation');
-const formsList = document.getElementById('forms-list');
-const apiUrl = 'http://localhost:3000/api/forms';
+const apiUrl = '/api/forms';
 
 form.addEventListener('submit', async (event) => {
 	event.preventDefault();
@@ -19,12 +18,9 @@ form.addEventListener('submit', async (event) => {
 
 		if (response.ok) {
 			form.reset();
-			loadForms();
 		}
 	} catch (error) {
 		confirmation.textContent = 'No se pudo enviar el formulario.';
 		confirmation.hidden = false;
 	}
 });
-
-loadForms().catch((error) => console.error(error));

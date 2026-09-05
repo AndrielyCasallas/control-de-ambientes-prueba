@@ -40,10 +40,6 @@ const server = http.createServer((request, response) => {
         return response.end();
     }
 
-    if (request.method === 'GET' && request.url === '/api/forms') {
-        return sendJson(response, 200, selectForms.all());
-    }
-
     if (request.method === 'POST' && request.url === '/api/forms') {
         let body = '';
 
