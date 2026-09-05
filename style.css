@@ -82,6 +82,10 @@ button:hover {
   border-radius: 6px;
 }
 
+#confirmation:not([hidden]) {
+  display: block;
+}
+
 table {
   display: block;
   width: 100%;

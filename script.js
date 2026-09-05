@@ -1,7 +1,26 @@
 const form = document.getElementById('contact-form');
 const confirmation = document.getElementById('confirmation');
 const formsList = document.getElementById('forms-list');
-const apiUrl = 'http://localhost:3000/api/forms';
+const apiUrl = '/api/forms';
+
+async function loadForms() {
+	const response = await fetch(apiUrl);
+	const forms = await response.json();
+
+	formsList.innerHTML = '';
+
+	forms.forEach((savedForm) => {
+		const row = document.createElement('tr');
+
+		['nombre', 'asunto', 'mensaje', 'creado_en'].forEach((field) => {
+			const cell = document.createElement('td');
+			cell.textContent = savedForm[field];
+			row.appendChild(cell);
+		});
+
+		formsList.appendChild(row);
+	});
+}
 
 form.addEventListener('submit', async (event) => {
 	event.preventDefault();
