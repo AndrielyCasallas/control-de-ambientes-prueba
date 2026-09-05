@@ -20,12 +20,6 @@ const insertForm = database.prepare(`
     VALUES (?, ?, ?, ?)
 `);
 
-const selectForms = database.prepare(`
-    SELECT id, nombre, correo, asunto, mensaje, creado_en
-    FROM forms
-    ORDER BY id DESC
-`);
-
 function sendJson(response, statusCode, data) {
     response.writeHead(statusCode, {
         'Content-Type': 'application/json',
