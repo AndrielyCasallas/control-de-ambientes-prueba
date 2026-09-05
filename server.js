@@ -102,6 +102,8 @@ const server = http.createServer((request, response) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log('Servidor disponible');
+const port = Number(process.env.PORT || 3000);
+
+server.listen(port, () => {
+    console.log(`Servidor disponible en el puerto ${port}`);
 });
