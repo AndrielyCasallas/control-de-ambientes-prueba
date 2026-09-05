@@ -1,0 +1,4 @@
+node_modules/
+forms.db
+.env
+.vercel/
