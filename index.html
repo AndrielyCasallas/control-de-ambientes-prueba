@@ -10,18 +10,22 @@
     <main>
         <h1>Formulario de contacto ambiente de desarrollo</h1>
 
-        <form id="contact-form">
+        <form id="contact-form" novalidate>
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" required aria-describedby="nombre-error">
+            <p class="field-error" id="nombre-error" role="alert"></p>
 
             <label for="correo">Correo electrónico:</label>
-            <input type="email" id="correo" name="correo" required>
+            <input type="email" id="correo" name="correo" required aria-describedby="correo-error">
+            <p class="field-error" id="correo-error" role="alert"></p>
 
             <label for="asunto">Asunto:</label>
-            <input type="text" id="asunto" name="asunto" required>
+            <input type="text" id="asunto" name="asunto" required aria-describedby="asunto-error">
+            <p class="field-error" id="asunto-error" role="alert"></p>
 
             <label for="mensaje">Mensaje:</label>
-            <textarea id="mensaje" name="mensaje" required></textarea>
+            <textarea id="mensaje" name="mensaje" required aria-describedby="mensaje-error"></textarea>
+            <p class="field-error" id="mensaje-error" role="alert"></p>
 
             <button type="submit">Enviar</button>
         </form>
