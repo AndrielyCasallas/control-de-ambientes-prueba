@@ -46,6 +46,21 @@ const server = http.createServer((request, response) => {
         return response.end();
     }
 
+    if (request.method === 'GET' && request.url === '/health') {
+        try {
+            database.prepare('SELECT 1').get();
+            return sendJson(response, 200, {
+                status: 'ok',
+                database: 'connected'
+            });
+        } catch (error) {
+            return sendJson(response, 503, {
+                status: 'error',
+                database: 'disconnected'
+            });
+        }
+    }
+
     if (request.method === 'GET' && request.url === '/api/forms') {
         return sendJson(response, 200, selectForms.all());
     }
