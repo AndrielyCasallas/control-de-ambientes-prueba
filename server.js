@@ -37,6 +37,9 @@ function sendJson(response, statusCode, data) {
 }
 
 const server = http.createServer((request, response) => {
+    const requestUrl = new URL(request.url, 'http://localhost');
+    const requestPath = requestUrl.pathname;
+
     if (request.method === 'OPTIONS') {
         response.writeHead(204, {
             'Access-Control-Allow-Origin': '*',
@@ -46,11 +49,7 @@ const server = http.createServer((request, response) => {
         return response.end();
     }
 
-    if (request.method === 'GET' && request.url === '/api/forms') {
-        return sendJson(response, 200, selectForms.all());
-    }
-
-    if (request.method === 'POST' && request.url === '/api/forms') {
+    if (request.method === 'POST' && requestPath === '/api/forms') {
         let body = '';
 
         request.on('data', (chunk) => {
@@ -80,7 +79,16 @@ const server = http.createServer((request, response) => {
         return;
     }
 
-    const requestedPath = request.url === '/' ? '/index.html' : request.url;
+    if (requestPath.startsWith('/api/')) {
+        return sendJson(response, 404, { error: 'Ruta no encontrada.' });
+    }
+
+    if (requestPath === '/favicon.ico') {
+        response.writeHead(204);
+        return response.end();
+    }
+
+    const requestedPath = requestPath === '/' ? '/index.html' : requestPath;
     const filePath = path.join(__dirname, requestedPath);
     const extension = path.extname(filePath);
     const contentTypes = {
@@ -92,7 +100,7 @@ const server = http.createServer((request, response) => {
     fs.readFile(filePath, (error, content) => {
         if (error) {
             response.writeHead(404, { 'Content-Type': 'text/plain' });
-            return response.end('Archivo no encontrado');
+            return response.end('Página no encontrada');
         }
 
         response.writeHead(200, { 'Content-Type': contentTypes[extension] || 'text/plain' });
@@ -100,6 +108,8 @@ const server = http.createServer((request, response) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log('Servidor disponible');
+const port = Number(process.env.PORT || 3000);
+
+server.listen(port, () => {
+    console.log(`Servidor disponible en el puerto ${port}`);
 });
